@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createPost, deletePost, getPosts, updatePost } from "@/services/post.services";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Field, FieldGroup } from "./ui/field";
 import { Label } from "./ui/label";

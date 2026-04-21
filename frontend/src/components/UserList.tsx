@@ -10,11 +10,10 @@ import { cn } from "@/lib/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUsers, registerUser, toggleUser } from "@/services/auth.services";
 import { toast } from "sonner";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "./ui/dialog";
 import { Field, FieldGroup } from "./ui/field";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { useNavigate } from "react-router";
 
 interface ListItem {
   icon: React.ReactNode;
@@ -38,6 +37,7 @@ const UserList = ({
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    password: "",
   })
   
   const { data, isLoading, refetch } = useQuery({
@@ -128,20 +128,17 @@ const UserList = ({
                       required
                     />
                   </Field>
-                  {
-                    isCreate && (
-                      <Field>
-                        <Label htmlFor="password">Password</Label>
-                        <Input 
-                          id="password" 
-                          name="password"
-                          value={formData.password}
-                          onChange={(e) => handleChange(e)}
-                          required
-                        />
-                      </Field>
-                    )
-                  }
+                  <Field>
+                    <Label htmlFor="password">Password</Label>
+                    <Input 
+                      id="password" 
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={(e) => handleChange(e)}
+                      required
+                    />
+                  </Field>
                 </FieldGroup>
                 <DialogFooter>
                   <DialogClose asChild>
