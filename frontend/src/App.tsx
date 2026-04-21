@@ -25,11 +25,19 @@ const RootLevelElement = () => {
 }
 
 const AdminLevelRoutes = ({children}: any) =>{
-  const user = JSON.parse(localStorage.getItem("user") || "");
-  if(user.role !== "admin"){
-    return <h1>Access denied!</h1>
+  try {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if(user.role !== "admin"){
+      return (
+        <div className="flex h-screen items-center justify-center">
+          <h1 className="text-2xl font-bold text-red-500">Access denied! Admin role required.</h1>
+        </div>
+      )
+    }
+    return children;
+  } catch (error) {
+    return <Navigate to="/login" />;
   }
-  return children;
 }
 
 export function App() {
@@ -41,11 +49,6 @@ export function App() {
           <Route path="/" element={<RootLevelElement/>} />
           <Route path="/register" element={<SignupForm />} />
           <Route path="/login" element={<LoginForm />} />
-          {/* <Route path="/posts" element={
-            <PrivateRoute>
-              <Blog7 />
-            </PrivateRoute>} 
-          /> */}
           <Route path="/posts" element={
             <PrivateRoute>
               <Posts />
@@ -53,12 +56,18 @@ export function App() {
           />
           <Route path="/users" element={
             <PrivateRoute>
-              <User />
+              <AdminLevelRoutes>
+                <User />
+              </AdminLevelRoutes>
             </PrivateRoute>} 
           />
-          <Route path="dashboard" element={<AdminLevelRoutes>
-            <Dashboard />
-          </AdminLevelRoutes>} />
+          <Route path="dashboard" element={
+            <PrivateRoute>
+              <AdminLevelRoutes>
+                <Dashboard />
+              </AdminLevelRoutes>
+            </PrivateRoute>} 
+          />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

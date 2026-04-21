@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const authenticate = async (req, res, next) => {
-    const authorization = req.headers["x-auth-token"];
-    const token = authorization || authorization?.split[1];
+    const token = req.headers["x-auth-token"];
     if(!token){
         return res.status(401).json({
             status: false,
@@ -10,15 +9,26 @@ const authenticate = async (req, res, next) => {
         })
     }
     try {
-        const verify = await jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verify;
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Now contains { email, role }
         next();
     } catch (error) {
-        return res.status(500).json({
+        return res.status(401).json({
             status: false,
-            message: `Error while authentication: ${error.message}`
+            message: `Invalid or expired token!`
         }) 
     }
 }
 
-module.exports = authenticate;
+const adminOnly = (req, res, next) => {
+    if (req.user && req.user.role === "admin") {
+        next();
+    } else {
+        return res.status(403).json({
+            status: false,
+            message: "Access Denied: Admin role required!"
+        });
+    }
+}
+
+module.exports = { authenticate, adminOnly };

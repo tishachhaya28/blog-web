@@ -55,7 +55,10 @@ module.exports = {
                     message: "Incorrect Password!"
                 })  
             }
-            const token = await jwt.sign(user.email, process.env.JWT_SECRET);
+            const token = await jwt.sign({ 
+                email: user.email, 
+                role: user.role 
+            }, process.env.JWT_SECRET);
             return res.status(200).json({
                 status: true,
                 message: "User login successfully!",
@@ -74,13 +77,6 @@ module.exports = {
     userActiveDeactive: async (req, res) => {
         try {
             const { userId } = req.params;
-            const user = await User.findOne({ email: req.user });
-            if(user.role !== "admin"){
-                return res.status(403).json({
-                    status: false,
-                    message: "Access Denied!"
-                })    
-            }
             const userData = await User.findById(userId);
             const updatedUser = await User.findByIdAndUpdate(userId, {
                 isActive: !userData?.isActive
@@ -99,21 +95,6 @@ module.exports = {
     },
     getUsers: async (req, res) => {
         try {
-            // const {} = req.params;
-            const userData = req.user;
-            const user = await User.findOne({ email: userData });
-            if(!user){
-                return res.status(400).json({
-                    status: false,
-                    message: "User not found with provided email!"
-                })    
-            }
-            if(user.role !== "admin"){
-                return res.status(403).json({
-                    status: false,
-                    message: "Access Denied!"
-                })    
-            }
             const users = await User.find();
             return res.status(200).json({
                 status: true,
