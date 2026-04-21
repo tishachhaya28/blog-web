@@ -19,6 +19,7 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { loginUser } from "@/services/auth.services"
 import { toast } from "sonner"
+import Ads from "./Ads"
 
 export function LoginForm({
   className,
@@ -69,7 +70,8 @@ export function LoginForm({
     login();
   }
   return (
-    <div className={cn("flex flex-col gap-6 w-3xl mx-auto mt-56", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 w-full max-w-2xl mx-auto py-20 px-4", className)} {...props}>
+      <Ads type="banner" />
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -115,6 +117,7 @@ export function LoginForm({
           </form>
         </CardContent>
       </Card>
+      <Ads type="footer" />
     </div>
   )
 }
