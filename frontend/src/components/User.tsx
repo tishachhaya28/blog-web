@@ -1,4 +1,3 @@
-import React from 'react'
 import { UserList } from './UserList'
 import { SidebarProvider } from './ui/sidebar'
 import { AppSidebar } from './app-sidebar'
