@@ -141,16 +141,16 @@ const Blog7 = ({
     postUpdate();
   }
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("py-12", className)}>
       <div className="container mx-auto flex flex-col items-center gap-8">
-        <div className="text-center">
-          <Badge variant="secondary" className="mb-6">
+        <div className="text-center max-w-2xl">
+          <Badge variant="secondary" className="mb-4">
             {tagline}
           </Badge>
-          <h2 className="mb-3 text-5xl tracking-tighter text-pretty md:mb-4 lg:mb-6 lg:max-w-3xl lg:text-7xl">
+          <h2 className="mb-4 text-4xl tracking-tighter sm:text-5xl md:text-6xl text-pretty lg:text-7xl">
             {heading}
           </h2>
-          <p className="mb-8 text-muted-foreground md:text-base lg:max-w-2xl lg:text-lg">
+          <p className="text-muted-foreground md:text-base lg:text-lg">
             {description}
           </p>
         </div>
@@ -191,11 +191,11 @@ const Blog7 = ({
               </DialogContent>
           </Dialog>
         </div>
-        <div className="gap-6 space-y-6 ps-10">
+        <div className="flex flex-col gap-6 w-full max-w-4xl">
           {posts?.map((post: any) => (
             <Card
               key={post?._id}
-              className="w-5xl"
+              className="w-full transition-all hover:shadow-md"
             >
               <CardHeader className="">
                 <div className="flex justify-between">
@@ -252,7 +252,7 @@ const Blog7 = ({
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="leading-relaxed text-muted-foreground w-[200px] truncate">
+                <p className="leading-relaxed text-muted-foreground line-clamp-3">
                   {post?.description}
                 </p>
               </CardContent>

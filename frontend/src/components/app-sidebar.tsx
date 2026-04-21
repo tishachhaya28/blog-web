@@ -13,16 +13,18 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { Button } from "./ui/button"
-import { useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router"
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Modules",
-      url: "#",
+      title: "Menu",
       items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard",
+        },
         {
           title: "Users",
           url: "/users",
@@ -39,18 +41,21 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navigate = useNavigate();
   return (
-    <Sidebar {...props}>
-      <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
+    <Sidebar {...props} className="border-r border-border/50">
+      <SidebarContent className="p-4">
+        {data.navMain.map((group) => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
+              {group.title}
+            </SidebarGroupLabel>
+            <SidebarGroupContent className="mt-4">
+              <SidebarMenu className="gap-2">
+                {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>{item.title}</a>
+                    <SidebarMenuButton asChild className="hover:bg-accent/50 transition-colors">
+                      <Link to={item.url} className="font-medium">
+                        {item.title}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -60,11 +65,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
-      <SidebarFooter>
-        <Button onClick={() =>{
-          navigate("/login");
-          localStorage.clear();
-        }}>
+      <SidebarFooter className="p-4 border-t border-border/50">
+        <Button 
+          variant="secondary" 
+          className="w-full justify-start gap-2 hover:bg-destructive/10 hover:text-destructive transition-colors"
+          onClick={() =>{
+            localStorage.clear();
+            navigate("/login");
+          }}
+        >
           Logout
         </Button>
       </SidebarFooter>
