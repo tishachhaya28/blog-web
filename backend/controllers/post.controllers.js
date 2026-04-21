@@ -5,14 +5,6 @@ module.exports = {
     createPost: async (req, res) => {
         try {
             const { title, description } = req.body;
-            const userData = req.user;
-            const user = await User.findOne({ email: userData });
-            if(user.role !== "admin"){
-                return res.status(403).json({
-                    status: false,
-                    message: "Access Denied!"
-                })    
-            }
             const newPost = await Post.create({
                 title,
                 description
@@ -31,16 +23,7 @@ module.exports = {
     },
     updatePost: async (req, res) => {
         try {
-            
             const { postId } = req.params;
-            const userData = req.user;
-            const user = await User.findOne({ email: userData });
-            if(user.role !== "admin"){
-                return res.status(403).json({
-                    status: false,
-                    message: "Access Denied!"
-                })    
-            }
             const post = await Post.findById(postId);
             if(!post){
                 return res.status(404).json({
@@ -66,14 +49,6 @@ module.exports = {
     deletePost: async (req, res) => {
         try {
             const { postId } = req.params;
-            const userData = req.user;
-            const user = await User.findOne({ email: userData });
-            if(user.role !== "admin"){
-                return res.status(403).json({
-                    status: false,
-                    message: "Access Denied!"
-                })    
-            }
             const post = await Post.findById(postId);
             if(!post){
                 return res.status(404).json({
